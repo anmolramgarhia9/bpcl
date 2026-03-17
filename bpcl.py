@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 BPCL Retail Outlet Scraper  v7  —  FIXED FULL VERSION + RESUME
 ===============================================================
