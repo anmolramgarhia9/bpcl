@@ -254,18 +254,12 @@ def _jitter(base: float) -> float:
 
 def _base_headers():
     return {
-        "User-Agent"      : UA,
-        "Accept"          : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Language" : "en-US,en;q=0.9",
-        "Accept-Encoding" : "gzip, deflate, br",
-        "Cache-Control"   : "no-cache",
-        "Connection"      : "keep-alive",
-        "Referer"         : BASE_URL + "/",
-        "Sec-Fetch-Dest"  : "document",
-        "Sec-Fetch-Mode"  : "navigate",
-        "Sec-Fetch-Site"  : "same-origin",
-        "Sec-Fetch-User"  : "?1",
-        "Upgrade-Insecure-Requests": "1",
+        "User-Agent"     : UA,
+        "Accept"         : "text/html,application/xhtml+xml,*/*;q=0.9",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Cache-Control"  : "no-cache",
+        "Connection"     : "keep-alive",
     }
 
 
@@ -290,7 +284,6 @@ async def do_get(session: aiohttp.ClientSession, url: str, att: int = 0) -> str 
         kwargs = dict(
             headers=_base_headers(),
             timeout=aiohttp.ClientTimeout(total=PAGE_TIMEOUT),
-            ssl=False,
         )
         if PROXY_URL:
             kwargs["proxy"] = PROXY_URL
@@ -320,7 +313,6 @@ async def do_post(session: aiohttp.ClientSession, form: dict, att: int = 0) -> s
             data=body,
             headers=_ajax_headers(len(body.encode())),
             timeout=aiohttp.ClientTimeout(total=PAGE_TIMEOUT),
-            ssl=False,
         )
         if PROXY_URL:
             kwargs["proxy"] = PROXY_URL
@@ -674,7 +666,7 @@ async def main(reset: bool, proxy: str | None = None):
     log.info("╚══════════════════════════════════════════╝")
 
     connector = aiohttp.TCPConnector(
-        ssl=False, limit=CONN_LIMIT, limit_per_host=CONN_LIMIT,
+        limit=CONN_LIMIT, limit_per_host=CONN_LIMIT,
         ttl_dns_cache=300, enable_cleanup_closed=True,
     )
     cookie_jar = aiohttp.CookieJar()
