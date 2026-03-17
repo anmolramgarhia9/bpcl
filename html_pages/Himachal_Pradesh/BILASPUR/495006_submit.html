@@ -1,0 +1,110 @@
+1|#||4|5664|updatePanel|update|
+                                        <div class="row" style="margin-bottom: 30px;">
+                                            <div class="col-sm-12">
+                                                <span id="lblState" class="validation"></span>
+                                                <select name="ddlState" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ddlState\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddlState" class="form-control">
+	<option value="0">--Select State--</option>
+	<option value="Andhra Pradesh">Andhra Pradesh</option>
+	<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+	<option value="Assam">Assam</option>
+	<option value="Bihar">Bihar</option>
+	<option value="Chandigarh">Chandigarh</option>
+	<option value="Chhattisgarh">Chhattisgarh</option>
+	<option value="Delhi">Delhi</option>
+	<option value="Goa">Goa</option>
+	<option value="Gujarat">Gujarat</option>
+	<option value="Haryana">Haryana</option>
+	<option selected="selected" value="Himachal Pradesh">Himachal Pradesh</option>
+	<option value="Jammu &amp; Kashmir">Jammu &amp; Kashmir</option>
+	<option value="Jharkand">Jharkand</option>
+	<option value="Karnataka">Karnataka</option>
+	<option value="Kerala">Kerala</option>
+	<option value="Ladakh">Ladakh</option>
+	<option value="Madhya Pradesh">Madhya Pradesh</option>
+	<option value="Maharashtra">Maharashtra</option>
+	<option value="Manipur">Manipur</option>
+	<option value="Meghalaya">Meghalaya</option>
+	<option value="Mizoram">Mizoram</option>
+	<option value="Nagaland">Nagaland</option>
+	<option value="Odisha">Odisha</option>
+	<option value="Pondicherry">Pondicherry</option>
+	<option value="Punjab">Punjab</option>
+	<option value="Rajasthan">Rajasthan</option>
+	<option value="Sikkim">Sikkim</option>
+	<option value="Tamil Nadu">Tamil Nadu</option>
+	<option value="Telangana">Telangana</option>
+	<option value="Tripura">Tripura</option>
+	<option value="UT of D&amp;NH and D&amp;D">UT of D&amp;NH and D&amp;D</option>
+	<option value="Uttar Pradesh">Uttar Pradesh</option>
+	<option value="Uttrakhand">Uttrakhand</option>
+	<option value="West Bengal">West Bengal</option>
+
+</select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom: 30px;">
+                                            <div class="col-sm-12">
+                                                <span id="lblDistrict" class="validation"></span>
+                                                <select name="ddlDistrict" onchange="javascript:setTimeout(&#39;__doPostBack(\&#39;ddlDistrict\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddlDistrict" class="form-control">
+	<option value="0">--Select District--</option>
+	<option selected="selected" value="BILASPUR">BILASPUR</option>
+	<option value="CHAMBA">CHAMBA</option>
+	<option value="HAMIRPUR">HAMIRPUR</option>
+	<option value="KANGRA">KANGRA</option>
+	<option value="KULU">KULU</option>
+	<option value="MANDI">MANDI</option>
+	<option value="SHIMLA">SHIMLA</option>
+	<option value="SIRMAUR">SIRMAUR</option>
+	<option value="SOLON">SOLON</option>
+	<option value="UNA">UNA</option>
+
+</select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom: 30px;">
+                                            <div class="col-sm-12">
+                                                <span id="lblPinCode" class="validation"></span>
+                                                <select name="ddlPinCode" id="ddlPinCode" class="form-control">
+	<option value="0">--Select Pin--</option>
+	<option value="174001">174001</option>
+	<option value="174004">174004</option>
+	<option value="174011">174011</option>
+	<option value="174013">174013</option>
+	<option value="174021">174021</option>
+	<option value="174023">174023</option>
+	<option value="174029">174029</option>
+	<option value="174031">174031</option>
+	<option value="174310">174310</option>
+	<option value="495001">495001</option>
+	<option selected="selected" value="495006">495006</option>
+	<option value="495009">495009</option>
+	<option value="495112">495112</option>
+	<option value="495113">495113</option>
+	<option value="495116">495116</option>
+	<option value="495220">495220</option>
+	<option value="495222">495222</option>
+	<option value="495224">495224</option>
+	<option value="495330">495330</option>
+	<option value="495442">495442</option>
+	<option value="495550">495550</option>
+	<option value="495551">495551</option>
+	<option value="495559">495559</option>
+
+</select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 form-field">
+                                                <input type="submit" name="btnCheck" value="Submit" id="btnCheck" class="comn-btn btn-form" />
+                                                <img id="imgLoader" alt="Processing" src="/images/img_ajax_processing.gif" style="width: 10%; display: none;" />
+                                            </div>
+                                        </div>
+
+                                         <span id="lblMessage" class="alert alert-warning">No records found.</span>
+
+                                        </div>
+                                        
+                                           
+                                    |16|updatePanel|ucMyDynamic_UpdatePanel2|
+        
+    |0|hiddenField|__EVENTTARGET||0|hiddenField|__EVENTARGUMENT||0|hiddenField|__LASTFOCUS||2524|hiddenField|__VIEWSTATE|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|8|hiddenField|__VIEWSTATEGENERATOR|99F35A98|1|hiddenField|__SCROLLPOSITIONX|0|1|hiddenField|__SCROLLPOSITIONY|0|0|hiddenField|__VIEWSTATEENCRYPTED||1648|hiddenField|__EVENTVALIDATION|kvrb7usd0S+LXvHp3DYvcp/ymnJTw4zFTW2KMG0QmDrAgbiOGPhF+valMtlFolqiNDf21sofpqZfZ4PVYA1eAkSI6yd/xXwWJpkgci6RXn9cWL9H0XtDsc3xQ1OcZZH+oi9N/q641p7+XbksT0Hi+Vpkl0mySsTjgBTUVT6nXJnNj5QPTFyHSA+OdVfPGcXKR+icR1gIcJfNwiHC/T8rvM2MoubXJ5oKtPvA0EsgI2ILKGdmLetVkOogPHy+fd7QJTsSvBLiHbypMpX6gIKNZ6zuMIbDMhcdU2iil2GoeRP+mMUfL3qhJu4tXOcEVgYJTBo9PchpG0KTNvwno3M/wi1dhYbhrWw6IxM9K0JgMmIATehglSLnkttGIkPZpnu74mButO01EJUX99Z7XHMxDmRwb85OpRVTZbjZZCHwUrs0zI9xBOBz3r+U4spc/XbdkGEdUMQlZ5Upbpr/pNh1NnL3chIaWAGUmO/b1k9j/IZYtxDdGrjeL7iMvHulWA3hDW2Ztjs3WbQKXkwnj0zIoydj9xB2zMiOXP+J9OiLtgBEK86ZXAX1NI6BWag0En9WCMwd/g537MIjZasG4sMe/0VY92wO+13pogUXBiZWHjX8byfTV3dgJzzmaipQ34R+D77Ls5Fap3S0oIZXAoUS7ux/d7/WCaHJUbcZ9sbzwD+j6mK6D9VllzbF9SzpQkKBE3dp5KQAS5itRWlU9QNsoY/b/j5rZ2bYDVshpBp2E4DSQcgDgbiT1haEMAXDtB9afdLWobxVXYa20U1LxfI0sRH5fnVUHF+3nwgxfXN8Z0yq+Ler1UwCeeDLeV4q+ZFmwjj90XN5DYrXdHzmEv9aUOkniH078ahfsBOqqZjybSYFcNk+mYgQyd5SCrpJwsdLm2WH9YfejA0TIZqg0lslQ+rWuHD7Gho9yxu3oswjAeB4e4s0Ycz6ZvbJ6ARB3zYIJUrhwu2Zb8g2T2d3mH4+lv6PZYT79dyd26AeObaAzrH13yO3ww4yhO2AtMU7BginVh/tg1AmnjdgB77PKec+B0B4hGc6ZCk0CrIcFRqMxznndjBVGarcT4yBBJAfBXOwhN75vqZBGp7OL1pxb3mxYdqye9aksEiRy1cPGFDjDW7AlMo+Wpih36+CgoTt6FZgzaEWpgjtS0RSY2iCG+kQAjl0slP1/bQDzB0FiWUaKwh+739oNqQZh5f6wIiW8MDv2ggIOlRFQ6ophXp46/U8d+M7zyC7DkhWsbrh/DBA0dPrItlZpcla0lOpKYfSaGAAgnJ+r0nzFoM8a1xVp/lqd3IL8BjTmVgN45puS+ielwc+pnZdDtU7N2gb64dE6S/fB9H681ITfUO9DdAsSjXugMTgzUaJK4XdkBD6xS0noYkFxBId8ra/EkBFBZhJSQlnl7JJiZl4iUhlrrLuB45zSDrImLYb6YQHkrjAuEZB1y9s4aeG4colXhnv1BBhvFtVcILJ1j4he447nycquOgW1rd1lPpPenirRGTwfPfcT+plH0kIENyvEdrrztZCEUOG+ETXbMHjSpNuovdqYVu0ttR+hyw4qksEmOhOYyUcI/yT8nwjxVXT06JDz2UTu34HjGNH0FBMBaOhosE/DCrfK6da25NNpYvD8jGLuqv87dskgOiU|0|asyncPostBackControlIDs|||0|postBackControlIDs|||65|updatePanelIDs||tupdate,update,tucMyDynamic$UpdatePanel2,ucMyDynamic_UpdatePanel2|0|childUpdatePanelIDs|||63|panelsToRefreshIDs||update,update,ucMyDynamic$UpdatePanel2,ucMyDynamic_UpdatePanel2|2|asyncPostBackTimeout||90|20|formAction||./retail-outlet-list|52|pageTitle||Retail Outlet List | Official Website of BPCL, India|
