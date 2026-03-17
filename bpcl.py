@@ -72,8 +72,36 @@ LIST_URL  = f"{BASE_URL}/our-businesses/fuels-and-services/retail-outlet-list"
 VIEW_URL  = f"{BASE_URL}/our-businesses/fuels-and-services/retail-outlet-list-view"
 SM_FIELD  = "ctl00$ContentPlaceHolder1$ScriptManager1"
 
-UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-      "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+UAS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
+]
+
+def get_random_ua():
+    return random.choice(UAS)
+
+def _base_headers(ua=None):
+    if not ua:
+        ua = get_random_ua()
+    return {
+        "User-Agent": ua,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Sec-Ch-Ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+    }
 
 OUTPUT_DIR   = Path("html_pages")
 PROGRESS_DIR = Path("progress")
@@ -252,20 +280,12 @@ def _jitter(base: float) -> float:
     return base * (0.7 + random.random() * 0.6)
 
 
-def _base_headers():
-    return {
-        "User-Agent"     : UA,
-        "Accept"         : "text/html,application/xhtml+xml,*/*;q=0.9",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Cache-Control"  : "no-cache",
-        "Connection"     : "keep-alive",
-    }
+# Removed redundant _base_headers
 
 
-def _ajax_headers(body_len: int):
+def _ajax_headers(body_len: int, ua=None):
     return {
-        **_base_headers(),
+        **_base_headers(ua),
         "Accept"          : "*/*",
         "Origin"          : BASE_URL,
         "Referer"         : LIST_URL,
@@ -279,10 +299,11 @@ def _ajax_headers(body_len: int):
 RETRY_CODES = {403, 429, 502, 503, 504}
 
 
-async def do_get(session: aiohttp.ClientSession, url: str, att: int = 0) -> str | None:
+async def do_get(session: aiohttp.ClientSession, url: str, att: int = 0, ua: str | None = None) -> str | None:
     try:
+        current_ua = ua or get_random_ua()
         kwargs = dict(
-            headers=_base_headers(),
+            headers=_base_headers(current_ua),
             timeout=aiohttp.ClientTimeout(total=PAGE_TIMEOUT),
         )
         if PROXY_URL:
@@ -292,26 +313,27 @@ async def do_get(session: aiohttp.ClientSession, url: str, att: int = 0) -> str 
                 return await r.text()
             if r.status in RETRY_CODES and att < MAX_RETRIES:
                 wait = _jitter(3.0 * (2 ** att))
-                log.info("GET HTTP %d — retry %d/%d in %.1fs", r.status, att + 1, MAX_RETRIES, wait)
+                log.info("GET HTTP %d — retry %d/%d in %.1fs (rotating UA)", r.status, att + 1, MAX_RETRIES, wait)
                 await asyncio.sleep(wait)
-                return await do_get(session, url, att + 1)
+                return await do_get(session, url, att + 1, get_random_ua())
             log.warning("GET %s → HTTP %d (gave up after %d attempts)", url, r.status, att + 1)
             return None
     except Exception as e:
         if att < MAX_RETRIES:
             wait = _jitter(2.0 * (2 ** att))
             await asyncio.sleep(wait)
-            return await do_get(session, url, att + 1)
+            return await do_get(session, url, att + 1, get_random_ua())
         log.warning("GET %s failed after %d attempts: %s", url, att + 1, e)
         return None
 
 
-async def do_post(session: aiohttp.ClientSession, form: dict, att: int = 0) -> str | None:
+async def do_post(session: aiohttp.ClientSession, form: dict, att: int = 0, ua: str | None = None) -> str | None:
+    current_ua = ua or get_random_ua()
     body = urllib.parse.urlencode(form, encoding="utf-8")
     try:
         kwargs = dict(
             data=body,
-            headers=_ajax_headers(len(body.encode())),
+            headers=_ajax_headers(len(body.encode()), current_ua),
             timeout=aiohttp.ClientTimeout(total=PAGE_TIMEOUT),
         )
         if PROXY_URL:
@@ -321,16 +343,16 @@ async def do_post(session: aiohttp.ClientSession, form: dict, att: int = 0) -> s
                 return await r.text()
             if r.status in RETRY_CODES and att < MAX_RETRIES:
                 wait = _jitter(3.0 * (2 ** att))
-                log.info("POST HTTP %d — retry %d/%d in %.1fs", r.status, att + 1, MAX_RETRIES, wait)
+                log.info("POST HTTP %d — retry %d/%d in %.1fs (rotating UA)", r.status, att + 1, MAX_RETRIES, wait)
                 await asyncio.sleep(wait)
-                return await do_post(session, form, att + 1)
+                return await do_post(session, form, att + 1, get_random_ua())
             log.warning("POST → HTTP %d (gave up after %d attempts)", r.status, att + 1)
             return None
     except Exception as e:
         if att < MAX_RETRIES:
             wait = _jitter(2.0 * (2 ** att))
             await asyncio.sleep(wait)
-            return await do_post(session, form, att + 1)
+            return await do_post(session, form, att + 1, get_random_ua())
         log.warning("POST failed after %d attempts: %s", att + 1, e)
         return None
 
@@ -675,7 +697,7 @@ async def main(reset: bool, proxy: str | None = None):
         connector=connector,
         cookie_jar=cookie_jar,
         connector_owner=True,
-        headers={"User-Agent": UA},
+        headers=_base_headers(),
     ) as session:
         # ── Warm-up: load the page to get cookies & check access ─────────
         mode = f"via proxy {PROXY_URL}" if PROXY_URL else "direct"
